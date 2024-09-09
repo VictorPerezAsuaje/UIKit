@@ -37,13 +37,16 @@ void MenuScene::Render(SceneManager &manager)
         float width = (float)MeasureText(optionName.c_str(), Game::FontSize) + Game::FontPadding;
         float height = (float)Game::FontSize + Game::FontPadding;
 
-        UIButton button = UIButton(Vector2(x, y), Vector2(width, height), GRAY, optionName, BLUE);
+        UIButton button = UIButton();
+        button.Position = Vector2(x, y);
+        button.Size = Vector2(width, height);
+        button.Text = optionName;
         button.OnClickFunc = [this, &manager = manager, optionName = optionName]()
         {
             this->ChangeToScene(manager, optionName);
         };
 
-        button.Draw();
+        button.Update();
         i++;
     }
 }

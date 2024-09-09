@@ -9,8 +9,9 @@ using namespace std;
 class UIElement
 {
 public:
-    UIElement(Vector2 position, Vector2 size, Color color) : Position(position), Size(size), BaseColor(color) {}
-    virtual void Draw() = 0;
+    Vector2 Position;
+    Vector2 Size;
+    Color BaseColor = GRAY;
 
     virtual bool IsMouseOver()
     {
@@ -22,7 +23,5 @@ public:
     virtual void Update() = 0;
 
 protected:
-    Vector2 Position;
-    Vector2 Size;
-    Color BaseColor;
+    virtual void Draw() = 0;
 };
