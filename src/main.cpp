@@ -10,30 +10,10 @@
 
 using namespace std;
 
-SceneManager sceneManager = SceneManager();
-
 int main()
 {
-    InitWindow(Game::Width, Game::Height, Game::Title.c_str());
-    SetTargetFPS(60);
-
-    while (!WindowShouldClose())
-    {
-        BeginDrawing();
-
-        // You need to clear background, otherwise it keeps "drawing" the circle each iteration without removing the last
-        ClearBackground(BLACK);
-
-        sceneManager.RenderCurrentScene();
-
-        if (sceneManager.ShouldExitGame())
-        {
-            break;
-        }
-
-        EndDrawing();
-    }
-
-    CloseWindow();
+    Game game = Game();
+    game.AddSingleton<SceneManager>();
+    game.Run();
     return 0;
 }

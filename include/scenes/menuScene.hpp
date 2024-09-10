@@ -21,6 +21,6 @@ public:
 
 protected:
     vector<string> Options = {};
-    vector<shared_ptr<UIElement>> GUIElements = {};
     void ChangeToScene(SceneManager &manager, string sceneName);
+    void LoadMenuButtons();
 };
