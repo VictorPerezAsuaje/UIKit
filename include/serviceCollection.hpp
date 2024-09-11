@@ -20,9 +20,9 @@ enum class ServiceLifetime
 class ServiceDescriptor
 {
 protected:
-    ServiceLifetime lifetime;
+    ServiceLifetime _lifetime;
 
-    ServiceDescriptor(ServiceLifetime lifetime) : lifetime(lifetime) {}
+    ServiceDescriptor(ServiceLifetime lifetime) : _lifetime(lifetime) {}
     virtual ~ServiceDescriptor() = default;
 
 public:
@@ -33,56 +33,81 @@ public:
 template <typename T>
 class ConcreteServiceDescriptor : public ServiceDescriptor
 {
-    function<shared_ptr<T>()> factory;
-    shared_ptr<T> singletonInstance; // Singleton instance (once per build)
-    shared_ptr<T> scopedInstance;    // Scoped instance (on a per-frame basis)
+    function<shared_ptr<T>()> _factory;
+    shared_ptr<T> _singletonInstance; // Singleton instance (once per build)
+    shared_ptr<T> _scopedInstance;    // Scoped instance (on a per-frame basis)
 
 public:
     ConcreteServiceDescriptor(ServiceLifetime lifetime, function<shared_ptr<T>()> factory)
-        : ServiceDescriptor(lifetime), factory(factory) {}
+        : ServiceDescriptor(lifetime), _factory(factory) {}
 
     shared_ptr<void> CreateInstance() override
     {
-        if (lifetime == ServiceLifetime::Singleton)
+        if (_lifetime == ServiceLifetime::Singleton)
         {
-            if (!singletonInstance)
+            if (!_singletonInstance)
             {
-                singletonInstance = factory();
+                _singletonInstance = _factory();
             }
 
-            return singletonInstance;
+            return _singletonInstance;
         }
 
-        if (lifetime == ServiceLifetime::Scoped)
+        if (_lifetime == ServiceLifetime::Scoped)
         {
-            if (!scopedInstance)
+            if (!_scopedInstance)
             {
-                scopedInstance = factory();
+                _scopedInstance = _factory();
             }
 
-            return scopedInstance;
+            return _scopedInstance;
         }
 
         // Lifetime must be a transient, so it's always a new instance
-        return factory();
+        return _factory();
     }
 
     void ResetScopedInstance() override
     {
-        scopedInstance.reset();
+        _scopedInstance.reset();
     }
 };
 
 class ServiceCollection
 {
 private:
-    unordered_map<type_index, shared_ptr<ServiceDescriptor>> services;
+    unordered_map<type_index, shared_ptr<ServiceDescriptor>> _services;
+    vector<type_index> _scopedServiceTypes = {};
+
+    shared_ptr<ServiceDescriptor> GetServiceDescriptor(type_index type)
+    {
+        auto it = _services.find(type);
+        if (it != _services.end())
+        {
+            return it->second;
+        }
+        else
+        {
+            throw runtime_error(format("The service '{}' does not exist.", type.name()));
+        }
+    }
 
 public:
+    vector<shared_ptr<ServiceDescriptor>> GetScopedServices()
+    {
+        vector<shared_ptr<ServiceDescriptor>> scopedServices = {};
+        for (type_index type : _scopedServiceTypes)
+        {
+            scopedServices.insert(scopedServices.end(), _services[type]);
+        }
+
+        return scopedServices;
+    }
+
     template <typename T>
     void AddService(ServiceLifetime lifetime, function<shared_ptr<T>()> factory)
     {
-        services[typeid(T)] = make_shared<ConcreteServiceDescriptor<T>>(lifetime, factory);
+        _services[typeid(T)] = make_shared<ConcreteServiceDescriptor<T>>(lifetime, factory);
     }
 
     template <typename T>
@@ -105,25 +130,9 @@ public:
     {
         AddService<T>(ServiceLifetime::Scoped, []()
                       { return make_shared<T>(); });
+
+        _scopedServiceTypes.insert(_scopedServiceTypes.end(), typeid(T));
     }
 
-    shared_ptr<ServiceDescriptor> GetServiceDescriptor(type_index type)
-    {
-        auto it = services.find(type);
-        if (it != services.end())
-        {
-            return it->second;
-        }
-        else
-        {
-            throw runtime_error(format("The service '{}' does not exist.", type.name()));
-        }
-    }
-
-    template <typename T>
-    shared_ptr<T> GetService()
-    {
-        auto descriptor = GetServiceDescriptor(typeid(T));
-        return static_pointer_cast<T>(descriptor->CreateInstance());
-    }
+    friend class Game;
 };

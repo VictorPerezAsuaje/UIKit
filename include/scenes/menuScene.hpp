@@ -7,7 +7,7 @@
 
 #include "scene.hpp"
 #include "sceneManager.hpp"
-#include "ui/uiElement.hpp"
+#include "ui/uiButton.hpp"
 
 using namespace std;
 
@@ -21,6 +21,8 @@ public:
 
 protected:
     vector<string> Options = {};
+    vector<UIButton> MenuButtons = {};
+
     void ChangeToScene(SceneManager &manager, string sceneName);
-    void LoadMenuButtons();
+    void LoadMenuButtons(SceneManager &manager);
 };

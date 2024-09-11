@@ -17,7 +17,6 @@ PlayScene::PlayScene()
 
 void PlayScene::Render(SceneManager &manager)
 {
-    cout << "Play scene rendered!";
     DrawText("You are playing", (float)MeasureTextEx(GetFontDefault(), "You are playing", Game::FontSize, 0).x, (float)MeasureTextEx(GetFontDefault(), "You are playing", Game::FontSize, 0).y, Game::FontSize, WHITE);
 
     if (IsKeyPressed(KEY_BACKSPACE))

@@ -17,5 +17,4 @@ ExitScene::ExitScene()
 
 void ExitScene::Render(SceneManager &manager)
 {
-    cout << "Exit scene rendered!";
 }

@@ -12,3 +12,5 @@ const int Game::FontSize = 24;
 const int Game::FontSpacing = 32;
 const int Game::FontPadding = 16;
 const string Game::Title = "Scene Manager Test";
+
+unique_ptr<ServiceCollection> Game::_serviceCollection;

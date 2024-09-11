@@ -22,7 +22,8 @@ MenuScene::MenuScene()
 }
 
 void MenuScene::ChangeToScene(SceneManager &manager, string sceneName) { manager.SetCurrentScene(sceneName); }
-void MenuScene::Render(SceneManager &manager)
+
+void MenuScene::LoadMenuButtons(SceneManager &manager)
 {
     int i = 0;
     for (string optionName : Options)
@@ -46,7 +47,20 @@ void MenuScene::Render(SceneManager &manager)
             this->ChangeToScene(manager, optionName);
         };
 
-        button.Update();
+        MenuButtons.insert(MenuButtons.end(), button);
         i++;
+    }
+}
+
+void MenuScene::Render(SceneManager &manager)
+{
+    if (MenuButtons.size() == 0)
+    {
+        LoadMenuButtons(manager);
+    }
+
+    for (UIButton button : MenuButtons)
+    {
+        button.Update();
     }
 }
