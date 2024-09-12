@@ -14,16 +14,15 @@ using namespace std;
 
 const string MenuScene::DefaultName = "Menu";
 
-MenuScene::MenuScene()
+MenuScene::MenuScene() : Scene()
 {
     Name = MenuScene::DefaultName;
-    Options.insert(Options.end(), PlayScene::DefaultName);
-    Options.insert(Options.end(), ExitScene::DefaultName);
+    Options = {PlayScene::DefaultName, ExitScene::DefaultName};
 }
 
-void MenuScene::ChangeToScene(SceneManager &manager, string sceneName) { manager.SetCurrentScene(sceneName); }
+void MenuScene::ChangeToScene(string sceneName) { _manager->SetCurrentScene(sceneName); }
 
-void MenuScene::LoadMenuButtons(SceneManager &manager)
+void MenuScene::LoadMenuButtons()
 {
     int i = 0;
     for (string optionName : Options)
@@ -42,9 +41,9 @@ void MenuScene::LoadMenuButtons(SceneManager &manager)
         button.Position = Vector2(x, y);
         button.Size = Vector2(width, height);
         button.Text = optionName;
-        button.OnClickFunc = [this, &manager = manager, optionName = optionName]()
+        button.OnClickFunc = [this, optionName = optionName]()
         {
-            this->ChangeToScene(manager, optionName);
+            this->ChangeToScene(optionName);
         };
 
         MenuButtons.insert(MenuButtons.end(), button);
@@ -52,11 +51,11 @@ void MenuScene::LoadMenuButtons(SceneManager &manager)
     }
 }
 
-void MenuScene::Render(SceneManager &manager)
+void MenuScene::Render()
 {
     if (MenuButtons.size() == 0)
     {
-        LoadMenuButtons(manager);
+        LoadMenuButtons();
     }
 
     for (UIButton button : MenuButtons)

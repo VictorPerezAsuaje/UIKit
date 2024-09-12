@@ -12,5 +12,5 @@ class PlayScene : public Scene
 public:
     static const string DefaultName;
     PlayScene();
-    void Render(SceneManager &manager) override;
+    void Render() override;
 };

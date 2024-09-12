@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -10,8 +11,10 @@ class Scene
 {
 public:
     string GetName();
-    virtual void Render(SceneManager &manager) = 0;
+    virtual void Render() = 0;
+    Scene();
 
 protected:
     string Name;
+    shared_ptr<SceneManager> _manager;
 };

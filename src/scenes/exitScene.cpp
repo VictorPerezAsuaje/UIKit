@@ -10,11 +10,11 @@ using namespace std;
 
 const string ExitScene::DefaultName = "Exit";
 
-ExitScene::ExitScene()
+ExitScene::ExitScene() : Scene()
 {
     Name = DefaultName;
 }
 
-void ExitScene::Render(SceneManager &manager)
+void ExitScene::Render()
 {
 }

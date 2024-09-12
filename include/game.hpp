@@ -13,6 +13,7 @@ class Game
 {
 private:
     static unique_ptr<ServiceCollection> _serviceCollection;
+    shared_ptr<SceneManager> _sceneManager;
 
     void ResetScopedServices()
     {
@@ -34,6 +35,8 @@ public:
     Game()
     {
         _serviceCollection = make_unique<ServiceCollection>(ServiceCollection());
+        _serviceCollection->AddSingleton<SceneManager>();
+        _sceneManager = GetService<SceneManager>();
     }
 
     template <typename T>
@@ -61,11 +64,15 @@ public:
         _serviceCollection->AddScoped<T>();
     }
 
+    void AddScene(shared_ptr<Scene> scene)
+    {
+        _sceneManager->AddScene(scene);
+    }
+
     void Run()
     {
         InitWindow(Width, Height, Title.c_str());
         SetTargetFPS(60);
-        shared_ptr<SceneManager> sceneManager = GetService<SceneManager>();
 
         while (!WindowShouldClose())
         {
@@ -77,9 +84,9 @@ public:
             // You need to clear background, otherwise it keeps "drawing" the circle each iteration without removing the last
             ClearBackground(BLACK);
 
-            sceneManager->RenderCurrentScene();
+            _sceneManager->RenderCurrentScene();
 
-            if (sceneManager->ShouldExitGame())
+            if (_sceneManager->ShouldExitGame())
             {
                 break;
             }

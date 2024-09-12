@@ -10,32 +10,27 @@
 
 using namespace std;
 
-SceneManager::SceneManager()
+void SceneManager::AddScene(shared_ptr<Scene> scene)
 {
-    auto menu = make_shared<MenuScene>();
-    auto play = make_shared<PlayScene>();
-    auto exit = make_shared<ExitScene>();
-    Scenes[menu->GetName()] = menu;
-    Scenes[play->GetName()] = play;
-    Scenes[exit->GetName()] = exit;
-
-    CurrentScene = menu->GetName();
+    Scenes[scene->GetName()] = scene;
 }
 
 void SceneManager::RenderCurrentScene()
 {
-    GetCurrentScene()->Render(*this);
+    GetCurrentScene()->Render();
 }
 
 shared_ptr<Scene> SceneManager::GetCurrentScene()
 {
-    // cout << format("Current scene is: {}\n", CurrentScene);
     return Scenes[CurrentScene];
 }
 
 void SceneManager::SetCurrentScene(string sceneName)
 {
-    CurrentScene = sceneName;
+    if (Scenes.find(sceneName) != Scenes.end())
+    {
+        CurrentScene = sceneName;
+    }
 }
 
 shared_ptr<Scene> SceneManager::GetSceneByName(string sceneName)

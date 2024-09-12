@@ -17,12 +17,13 @@ public:
     static const string DefaultName;
 
     MenuScene();
-    void Render(SceneManager &manager) override;
+
+    void Render() override;
 
 protected:
     vector<string> Options = {};
     vector<UIButton> MenuButtons = {};
 
-    void ChangeToScene(SceneManager &manager, string sceneName);
-    void LoadMenuButtons(SceneManager &manager);
+    void ChangeToScene(string sceneName);
+    void LoadMenuButtons();
 };

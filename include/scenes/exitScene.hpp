@@ -13,7 +13,7 @@ public:
     static const string DefaultName;
 
     ExitScene();
-    void Render(SceneManager &manager) override;
+    void Render() override;
 
 protected:
 };
