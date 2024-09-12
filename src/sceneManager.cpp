@@ -27,10 +27,12 @@ shared_ptr<Scene> SceneManager::GetCurrentScene()
 
 void SceneManager::SetCurrentScene(string sceneName)
 {
-    if (Scenes.find(sceneName) != Scenes.end())
+    if (Scenes.count(sceneName) == 0)
     {
-        CurrentScene = sceneName;
+        cout << "Scene " + sceneName + " not found ";
     }
+
+    CurrentScene = sceneName;
 }
 
 shared_ptr<Scene> SceneManager::GetSceneByName(string sceneName)

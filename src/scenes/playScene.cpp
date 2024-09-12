@@ -17,7 +17,7 @@ PlayScene::PlayScene() : Scene()
 
 void PlayScene::Render()
 {
-    DrawText("You are playing", (float)MeasureTextEx(GetFontDefault(), "You are playing", Game::FontSize, 0).x, (float)MeasureTextEx(GetFontDefault(), "You are playing", Game::FontSize, 0).y, Game::FontSize, WHITE);
+    DrawText("You are playing", (float)MeasureTextEx(GetFontDefault(), "You are playing", Game::fontSize, 0).x, (float)MeasureTextEx(GetFontDefault(), "You are playing", Game::fontSize, 0).y, Game::fontSize, WHITE);
 
     if (IsKeyPressed(KEY_BACKSPACE))
     {

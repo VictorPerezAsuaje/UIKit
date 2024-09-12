@@ -19,7 +19,10 @@ int main()
     // Scenes (UI)
     game.AddScene(make_shared<MenuScene>());
     game.AddScene(make_shared<PlayScene>());
+    game.AddScene(make_shared<ConfigurationScene>());
+    game.AddScene(make_shared<ErrorScene>());
     game.AddScene(make_shared<ExitScene>());
     game.Run();
+
     return 0;
 }

@@ -15,85 +15,34 @@ private:
     static unique_ptr<ServiceCollection> _serviceCollection;
     shared_ptr<SceneManager> _sceneManager;
 
-    void ResetScopedServices()
-    {
-        vector<shared_ptr<ServiceDescriptor>> scoped = _serviceCollection->GetScopedServices();
-        for (auto service : scoped)
-        {
-            service->ResetScopedInstance();
-        }
-    }
+    bool _showMetadata = true;
+
+    void ResetScopedServices();
+    void Maximize();
+    void Minimize();
 
 public:
-    static const int Width;
-    static const int Height;
-    static const int FontSize;
-    static const int FontSpacing;
-    static const int FontPadding;
-    static const string Title;
+    static int width;
+    static int height;
+    static int fontSize;
+    static int fontSpacing;
+    static int fontPadding;
+    static string title;
 
-    Game()
-    {
-        _serviceCollection = make_unique<ServiceCollection>(ServiceCollection());
-        _serviceCollection->AddSingleton<SceneManager>();
-        _sceneManager = GetService<SceneManager>();
-    }
+    Game();
+
+    void AddScene(shared_ptr<Scene> scene);
+    void Run();
 
     template <typename T>
-    static shared_ptr<T> GetService()
-    {
-        auto descriptor = _serviceCollection->GetServiceDescriptor(typeid(T));
-        return static_pointer_cast<T>(descriptor->CreateInstance());
-    }
+    static shared_ptr<T> GetService();
 
     template <typename T>
-    void AddSingleton()
-    {
-        _serviceCollection->AddSingleton<T>();
-    }
+    void AddSingleton();
 
     template <typename T>
-    void AddTransient()
-    {
-        _serviceCollection->AddTransient<T>();
-    }
+    void AddTransient();
 
     template <typename T>
-    void AddScoped()
-    {
-        _serviceCollection->AddScoped<T>();
-    }
-
-    void AddScene(shared_ptr<Scene> scene)
-    {
-        _sceneManager->AddScene(scene);
-    }
-
-    void Run()
-    {
-        InitWindow(Width, Height, Title.c_str());
-        SetTargetFPS(60);
-
-        while (!WindowShouldClose())
-        {
-            // We clear scoped services on a per-frame basis
-            ResetScopedServices();
-
-            BeginDrawing();
-
-            // You need to clear background, otherwise it keeps "drawing" the circle each iteration without removing the last
-            ClearBackground(BLACK);
-
-            _sceneManager->RenderCurrentScene();
-
-            if (_sceneManager->ShouldExitGame())
-            {
-                break;
-            }
-
-            EndDrawing();
-        }
-
-        CloseWindow();
-    }
+    void AddScoped();
 };

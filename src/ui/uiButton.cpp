@@ -10,7 +10,7 @@ using namespace std;
 void UIButton::Draw()
 {
     DrawRectangleV(Position, Size, IsMouseOver() ? HoverColor : BaseColor);
-    DrawText(Text.c_str(), Position.x + Game::FontPadding / 2, Position.y + Game::FontPadding / 2, Game::FontSize, WHITE);
+    DrawText(Text.c_str(), Position.x + Game::fontPadding / 2, Position.y + Game::fontPadding / 2, Game::fontSize, WHITE);
 }
 
 void UIButton::Update()

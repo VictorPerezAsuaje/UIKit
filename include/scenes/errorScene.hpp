@@ -7,11 +7,16 @@
 
 using namespace std;
 
-class PlayScene : public Scene
+class ErrorScene : public Scene
 {
 public:
     static const string DefaultName;
 
-    PlayScene();
+    ErrorScene();
+
+    void RegisterException(const exception &ex);
     void Render() override;
+
+protected:
+    string _message;
 };
