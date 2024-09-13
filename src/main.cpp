@@ -7,6 +7,11 @@
 
 #include "game.hpp"
 #include "sceneManager.hpp"
+#include "scenes/scene.hpp"
+#include "scenes/playScene.hpp"
+#include "scenes/configurationScene.hpp"
+#include "scenes/errorScene.hpp"
+#include "scenes/exitScene.hpp"
 
 using namespace std;
 

@@ -1,9 +1,7 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-
-#include "scene.hpp"
+#include "globalIncludes.hpp"
+#include "scenes/scene.hpp"
 
 using namespace std;
 

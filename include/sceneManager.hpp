@@ -1,16 +1,14 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <map>
-#include <memory>
-
+#include "globalIncludes.hpp"
 #include "scenes/scene.hpp"
-#include "scenes/playScene.hpp"
-#include "scenes/configurationScene.hpp"
-#include "scenes/errorScene.hpp"
-#include "scenes/exitScene.hpp"
 #include "scenes/menuScene.hpp"
+
+class PlayScene;
+class ConfigurationScene;
+class ErrorScene;
+class ExitScene;
+class MenuScene;
 
 using namespace std;
 

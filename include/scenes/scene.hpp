@@ -1,7 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include <memory>
+#include "globalIncludes.hpp"
 
 using namespace std;
 

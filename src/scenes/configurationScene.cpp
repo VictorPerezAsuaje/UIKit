@@ -1,16 +1,33 @@
-#include <iostream>
-#include <vector>
-#include <format>
-#include <memory>
-#include <raylib.h>
+#include "globalIncludes.hpp"
 
-#include "game.hpp"
 #include "scenes/configurationScene.hpp"
+#include "scenes/menuScene.hpp"
+#include "game.hpp"
 #include "ui/uiButton.hpp"
 
 using namespace std;
 
 const string ConfigurationScene::DefaultName = "Configuration";
+
+ConfigurationScene::ConfigurationScene() : Scene()
+{
+    Name = ConfigurationScene::DefaultName;
+}
+
+void ConfigurationScene::Render()
+{
+    if (TabButtons.size() == 0)
+    {
+        LoadTabButtons();
+    }
+
+    for (UIButton button : TabButtons)
+    {
+        button.Update();
+    }
+}
+
+#pragma region PRIVATE_METHODS
 
 void ConfigurationScene::AddTabButton(string text, function<void()> callback)
 {
@@ -29,6 +46,8 @@ void ConfigurationScene::AddTabButton(string text, function<void()> callback)
     button.Size = Vector2(width, height);
     button.Text = text;
     button.OnClickFunc = callback;
+
+    TabButtons.insert(TabButtons.end(), button);
 }
 
 void ConfigurationScene::LoadTabButtons()
@@ -41,21 +60,3 @@ void ConfigurationScene::LoadTabButtons()
 }
 
 #pragma endregion PRIVATE_METHODS
-
-ConfigurationScene::ConfigurationScene() : Scene()
-{
-    Name = MenuScene::DefaultName;
-}
-
-void ConfigurationScene::Render()
-{
-    if (TabButtons.size() == 0)
-    {
-        LoadTabButtons();
-    }
-
-    for (UIButton button : TabButtons)
-    {
-        button.Update();
-    }
-}

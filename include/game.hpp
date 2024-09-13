@@ -1,11 +1,10 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <raylib.h>
+#include "globalIncludes.hpp"
 
-#include "sceneManager.hpp"
-#include "serviceCollection.hpp"
+class Scene;
+class SceneManager;
+class ServiceCollection;
 
 using namespace std;
 

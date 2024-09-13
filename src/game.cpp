@@ -1,8 +1,9 @@
-#include <iostream>
-#include <vector>
-#include <format>
+#include "globalIncludes.hpp"
 
+#include "serviceCollection.hpp"
 #include "game.hpp"
+
+#include "sceneManager.hpp"
 #include "scenes/errorScene.hpp"
 
 using namespace std;
@@ -113,7 +114,7 @@ void Game::Run()
         }
         catch (const exception &e)
         {
-            std::cerr << "Exception caught: " << e.what() << std::endl;
+            cerr << "Exception caught: " << e.what() << endl;
             if (_sceneManager == nullptr)
             {
                 EndDrawing();

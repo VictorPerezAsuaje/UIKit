@@ -1,13 +1,10 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <raylib.h>
-
-#include "scene.hpp"
-#include "sceneManager.hpp"
+#include "globalIncludes.hpp"
 #include "ui/uiButton.hpp"
+#include "scenes/scene.hpp"
+
+class SceneManager;
 
 using namespace std;
 

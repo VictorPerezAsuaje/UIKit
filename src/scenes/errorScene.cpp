@@ -6,6 +6,7 @@
 
 #include "scenes/errorScene.hpp"
 #include "sceneManager.hpp"
+#include "game.hpp"
 
 using namespace std;
 
@@ -23,6 +24,11 @@ void ErrorScene::RegisterException(const exception &ex)
 
 void ErrorScene::Render()
 {
-    cout << "This is the message: " + _message << endl;
-    // DrawText(Text.c_str(), Position.x + Game::fontPadding / 2, Position.y + Game::fontPadding / 2, Game::fontSize, WHITE);
+    int x = MeasureText(_message.c_str(), Game::fontSize) / 2;
+    DrawText(_message.c_str(), Game::width / 2 - x, Game::height / 2, Game::fontSize, WHITE);
+
+    if (IsKeyPressed(KEY_BACKSPACE))
+    {
+        _manager->SetCurrentScene(MenuScene::DefaultName);
+    }
 }

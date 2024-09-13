@@ -12,6 +12,11 @@ using namespace std;
 
 void SceneManager::AddScene(shared_ptr<Scene> scene)
 {
+    if (Scenes.count(scene->GetName()) == 1)
+    {
+        throw invalid_argument("Scene " + scene->GetName() + " is duplicated.");
+    }
+
     Scenes[scene->GetName()] = scene;
 }
 
@@ -29,7 +34,7 @@ void SceneManager::SetCurrentScene(string sceneName)
 {
     if (Scenes.count(sceneName) == 0)
     {
-        cout << "Scene " + sceneName + " not found ";
+        throw invalid_argument("Scene " + sceneName + " not found ");
     }
 
     CurrentScene = sceneName;
@@ -37,6 +42,11 @@ void SceneManager::SetCurrentScene(string sceneName)
 
 shared_ptr<Scene> SceneManager::GetSceneByName(string sceneName)
 {
+    if (Scenes.count(sceneName) == 0)
+    {
+        throw invalid_argument("Scene " + sceneName + " not found ");
+    }
+
     return Scenes[sceneName];
 }
 

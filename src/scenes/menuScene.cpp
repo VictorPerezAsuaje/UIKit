@@ -1,14 +1,12 @@
-#include <iostream>
-#include <vector>
-#include <format>
-#include <memory>
-#include <raylib.h>
+#include "globalIncludes.hpp"
 
 #include "game.hpp"
+
+#include "sceneManager.hpp"
+#include "scenes/scene.hpp"
 #include "scenes/menuScene.hpp"
 #include "scenes/playScene.hpp"
 #include "scenes/exitScene.hpp"
-#include "scenes/errorScene.hpp"
 #include "scenes/configurationScene.hpp"
 #include "ui/uiButton.hpp"
 

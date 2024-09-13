@@ -1,15 +1,11 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <raylib.h>
-
-#include "scene.hpp"
-#include "sceneManager.hpp"
-#include "ui/uiButton.hpp"
+#include "globalIncludes.hpp"
+#include "scenes/scene.hpp"
 
 using namespace std;
+
+class UIButton;
 
 class ConfigurationScene : public Scene
 {
