@@ -2,13 +2,14 @@
 
 #include "game.hpp"
 
+#include "ui/uiButton.hpp"
+
 #include "sceneManager.hpp"
 #include "scenes/scene.hpp"
 #include "scenes/menuScene.hpp"
 #include "scenes/playScene.hpp"
 #include "scenes/exitScene.hpp"
 #include "scenes/configurationScene.hpp"
-#include "ui/uiButton.hpp"
 
 using namespace std;
 
@@ -31,19 +32,19 @@ void MenuScene::LoadMenuButtons()
     for (string optionName : Options)
     {
         int spacing = i * Game::fontSpacing;
-
-        Vector2 textAxis = MeasureTextEx(GetFontDefault(), optionName.c_str(), Game::fontSize, 0);
+        auto uppercased = TextToUpper(optionName.c_str());
+        Vector2 textAxis = MeasureTextEx(GetFontDefault(), uppercased, Game::fontSize, 0);
 
         float x = (Game::width - textAxis.x) / 2;
         float y = (Game::height - textAxis.y) / 2 + spacing * 2;
 
-        float width = (float)MeasureText(optionName.c_str(), Game::fontSize) + Game::fontPadding;
+        float width = (float)MeasureText(uppercased, Game::fontSize) + Game::fontPadding;
         float height = (float)Game::fontSize + Game::fontPadding;
 
         UIButton button = UIButton();
         button.Position = Vector2(x, y);
         button.Size = Vector2(width, height);
-        button.Text = optionName;
+        button.Text = uppercased;
         button.OnClickFunc = [this, optionName = optionName]()
         {
             this->ChangeToScene(optionName);
@@ -60,6 +61,10 @@ void MenuScene::Render()
     {
         LoadMenuButtons();
     }
+
+    Texture2D bg = Game::GetResource(0);
+    DrawTextureEx(bg, (Vector2){0, 0}, 0, Game::GetScreenWidthRatio(bg.width), WHITE);
+    DrawRectangle(0, 0, Game::width, Game::height, Color(0, 0, 0, 128));
 
     for (UIButton button : MenuButtons)
     {

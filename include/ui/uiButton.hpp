@@ -13,6 +13,7 @@ class UIButton : public UIElement
 public:
     string Text = "";
     Color HoverColor = BLUE;
+    Rectangle Container = {0,0,0,0};
     function<void()> OnClickFunc;
 
     void Update() override;

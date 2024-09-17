@@ -1,9 +1,11 @@
 #include "globalIncludes.hpp"
 
-#include "scenes/configurationScene.hpp"
-#include "scenes/menuScene.hpp"
 #include "game.hpp"
+#include "sceneManager.hpp"
 #include "ui/uiButton.hpp"
+
+#include "scenes/menuScene.hpp"
+#include "scenes/configurationScene.hpp"
 
 using namespace std;
 
@@ -12,6 +14,10 @@ const string ConfigurationScene::DefaultName = "Configuration";
 ConfigurationScene::ConfigurationScene() : Scene()
 {
     Name = ConfigurationScene::DefaultName;
+    _tabButtonArea = {0, 0, (float)(Game::width * 0.2), (float)Game::height};
+
+    int spacing = Game::fontSpacing * 2;
+    _tabConfigArea = {_tabButtonArea.width + spacing, (float)spacing, Game::width - _tabButtonArea.width - 2 * spacing, (float)Game::height - 2 * spacing};
 }
 
 void ConfigurationScene::Render()
@@ -21,9 +27,28 @@ void ConfigurationScene::Render()
         LoadTabButtons();
     }
 
-    for (UIButton button : TabButtons)
+    Texture2D bg = Game::GetResource(0);
+    DrawTextureEx(bg, (Vector2){0, 0}, 0, Game::GetScreenWidthRatio(bg.width), WHITE);
+    DrawRectangle(0, 0, Game::width, Game::height, Color(0, 0, 0, 128));
+
+    DrawRectangle(_tabConfigArea.x, _tabConfigArea.y, _tabConfigArea.width, _tabConfigArea.height, Color(0, 0, 0, 64));
+
+    for (int i = 0; i < (int)TabButtons.size(); i++)
     {
+        UIButton button = TabButtons[i];
+        button.BaseColor = _selectedTab == i ? BLUE : GRAY;
         button.Update();
+    }
+
+    switch (_selectedTab)
+    {
+    case 0:
+    default:
+        ShowDisplayOptions();
+        break;
+    case 1:
+        ShowSoundOptions();
+        break;
     }
 }
 
@@ -31,32 +56,43 @@ void ConfigurationScene::Render()
 
 void ConfigurationScene::AddTabButton(string text, function<void()> callback)
 {
-    int spacing = TabButtons.size() * Game::fontSpacing;
-
-    Vector2 textAxis = MeasureTextEx(GetFontDefault(), text.c_str(), Game::fontSize, 0);
-
-    float x = (Game::width - textAxis.x) / 2;
-    float y = (Game::height - textAxis.y) / 2 + spacing * 2;
-
-    float width = (float)MeasureText(text.c_str(), Game::fontSize) + Game::fontPadding;
-    float height = (float)Game::fontSize + Game::fontPadding;
+    float x = Game::fontSpacing;
+    float y = (TabButtons.size() + 1) * Game::fontSpacing;
 
     UIButton button = UIButton();
-    button.Position = Vector2(x, y);
-    button.Size = Vector2(width, height);
+    button.Position = Vector2(x, 2 * y);
+    button.Size = Vector2(_tabButtonArea.width, (float)Game::fontSize + Game::fontPadding);
     button.Text = text;
+    button.Container = _tabButtonArea;
     button.OnClickFunc = callback;
 
-    TabButtons.insert(TabButtons.end(), button);
+    TabButtons.insert(TabButtons.end(), button);    
 }
 
 void ConfigurationScene::LoadTabButtons()
 {
-    AddTabButton("DISPLAY", []()
-                 { cout << "Here there from DISPLAY!" << endl; });
+    AddTabButton("DISPLAY", [this]() { _selectedTab = 0; });
 
-    AddTabButton("SOUND", []()
-                 { cout << "Here there from SOUND!" << endl; });
+    AddTabButton("SOUND", [this]() { _selectedTab = 1; });
+
+    AddTabButton("BACK TO MENU", [this]() { this->BackToMenu(); });
+}
+
+void ConfigurationScene::ShowDisplayOptions()
+{
+    cout << "Here there from DISPLAY!" << endl;
+    DrawText("Display label option 1:", (int)_tabConfigArea.x, (int)_tabConfigArea.y, Game::fontSize, WHITE);
+}
+
+void ConfigurationScene::ShowSoundOptions()
+{
+    cout << "Here there from SOUND!" << endl;
+}
+
+void ConfigurationScene::BackToMenu()
+{
+    _selectedTab = 0;
+    _manager->SetCurrentScene(MenuScene::DefaultName);
 }
 
 #pragma endregion PRIVATE_METHODS

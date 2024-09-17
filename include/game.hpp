@@ -14,9 +14,14 @@ private:
     static unique_ptr<ServiceCollection> _serviceCollection;
     shared_ptr<SceneManager> _sceneManager;
 
+    static map<int, Texture2D> _resources;
+
     bool _showMetadata = true;
 
     void ResetScopedServices();
+    void AddResource(int position, string resource);
+    void UnloadResources();
+
     void Maximize();
     void Minimize();
 
@@ -44,4 +49,13 @@ public:
 
     template <typename T>
     void AddScoped();
+
+    void LoadResources();
+    static Texture2D GetResource(int position);
+
+    static float GetScreenWidthRatio(float width);
+    static float GetScreenHeightRatio(float height);
+
+    static float GetProportionalWidthToScreen(float width);
+    static float GetProportionalHeightToScreen(float height);
 };

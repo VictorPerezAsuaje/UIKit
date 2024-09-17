@@ -17,8 +17,16 @@ public:
     void Render() override;
 
 protected:
+    Rectangle _tabButtonArea = {0,0,0,0};
+    Rectangle _tabConfigArea = {0,0,0,0};
+
     vector<UIButton> TabButtons = {};
+    int _selectedTab;
 
     void AddTabButton(string text, function<void()> callback);
     void LoadTabButtons();
+
+    void ShowDisplayOptions();
+    void ShowSoundOptions();
+    void BackToMenu();
 };

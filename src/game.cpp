@@ -11,10 +11,11 @@ using namespace std;
 #pragma region PRIVATE_PROPS
 int Game::width = 1280;
 int Game::height = 720;
-int Game::fontSize = 24;
+int Game::fontSize = 20;
 int Game::fontSpacing = 32;
 int Game::fontPadding = 16;
 string Game::title = "Scene Manager Test";
+map<int, Texture2D> Game::_resources = {};
 
 unique_ptr<ServiceCollection> Game::_serviceCollection;
 
@@ -44,6 +45,16 @@ void Game::Maximize()
 
 void Game::Minimize()
 {
+}
+
+void Game::AddResource(int position, string resource)
+{
+    if (_resources.count(position) == 1)
+    {
+        throw invalid_argument("The position " + to_string(position) + " already contains a resource.");
+    }
+
+    _resources[position] = LoadTexture(resource.c_str());
 }
 
 #pragma endregion PRIVATE_METHODS
@@ -80,9 +91,54 @@ void Game::AddScene(shared_ptr<Scene> scene)
     _sceneManager->AddScene(scene);
 }
 
+void Game::LoadResources()
+{
+    AddResource(0, "resources/ui-menu-bg.png");
+}
+
+void Game::UnloadResources()
+{
+    for (auto resource : _resources)
+    {
+        UnloadTexture(resource.second);
+    }
+}
+
+Texture2D Game::GetResource(int position)
+{
+    if (_resources.count(position) == 0)
+    {
+        throw invalid_argument("The position " + to_string(position) + " does not exist nor contain a resource.");
+    }
+
+    return _resources[position];
+}
+
+float Game::GetScreenWidthRatio(float width)
+{
+    return (float)((float)Game::width / width);
+}
+
+float Game::GetScreenHeightRatio(float height)
+{
+    return (float)((float)Game::height / height);
+}
+
+float Game::GetProportionalWidthToScreen(float width)
+{
+    return width * (float)((float)Game::width / width);
+}
+
+float Game::GetProportionalHeightToScreen(float height)
+{
+    return height * (float)((float)Game::height / height);
+}
+
 void Game::Run()
 {
     InitWindow(width, height, title.c_str());
+
+    LoadResources();
     SetTargetFPS(60);
 
     while (!WindowShouldClose())
@@ -130,6 +186,7 @@ void Game::Run()
         EndDrawing();
     }
 
+    UnloadResources();
     CloseWindow();
 }
 
