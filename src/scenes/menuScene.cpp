@@ -41,16 +41,14 @@ void MenuScene::LoadMenuButtons()
         float width = (float)MeasureText(uppercased, Game::fontSize) + Game::fontPadding;
         float height = (float)Game::fontSize + Game::fontPadding;
 
-        UIButton button = UIButton();
-        button.Position = Vector2(x, y);
-        button.Size = Vector2(width, height);
+        UIButton button = UIButton((int)x, (int)y, width, height);
         button.Text = uppercased;
         button.OnClickFunc = [this, optionName = optionName]()
         {
             this->ChangeToScene(optionName);
         };
 
-        MenuButtons.insert(MenuButtons.end(), button);
+        MenuButtons.push_back(button);
         i++;
     }
 }

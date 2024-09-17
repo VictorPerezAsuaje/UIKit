@@ -98,7 +98,7 @@ public:
         vector<shared_ptr<ServiceDescriptor>> scopedServices = {};
         for (type_index type : _scopedServiceTypes)
         {
-            scopedServices.insert(scopedServices.end(), _services[type]);
+            scopedServices.push_back(_services[type]);
         }
 
         return scopedServices;
@@ -131,7 +131,7 @@ public:
         AddService<T>(ServiceLifetime::Scoped, []()
                       { return make_shared<T>(); });
 
-        _scopedServiceTypes.insert(_scopedServiceTypes.end(), typeid(T));
+        _scopedServiceTypes.push_back(typeid(T));
     }
 
     friend class Game;

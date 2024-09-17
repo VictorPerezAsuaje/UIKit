@@ -1,6 +1,7 @@
 #pragma once
 
 #include "globalIncludes.hpp"
+#include "ui/uiPanel.hpp"
 #include "scenes/scene.hpp"
 
 using namespace std;
@@ -17,14 +18,15 @@ public:
     void Render() override;
 
 protected:
-    Rectangle _tabButtonArea = {0,0,0,0};
-    Rectangle _tabConfigArea = {0,0,0,0};
+    UIPanel _tabButtonArea = UIPanel();
+    UIPanel _tabConfigArea = UIPanel();    
 
     vector<UIButton> TabButtons = {};
-    int _selectedTab;
+    string _selectedTab = "Display";
 
-    void AddTabButton(string text, function<void()> callback);
+    void AddTabButton(string id, string text, function<void()> callback);
     void LoadTabButtons();
+    void SelectTab(string tabId);
 
     void ShowDisplayOptions();
     void ShowSoundOptions();
