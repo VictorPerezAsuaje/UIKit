@@ -8,13 +8,6 @@
 
 using namespace std;
 
-const string ExitScene::DefaultName = "Exit";
+ExitScene::ExitScene() : Scene(){}
 
-ExitScene::ExitScene() : Scene()
-{
-    Name = DefaultName;
-}
-
-void ExitScene::Render()
-{
-}
+void ExitScene::Render(){}

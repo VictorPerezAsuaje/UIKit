@@ -8,8 +8,6 @@ using namespace std;
 class ExitScene : public Scene
 {
 public:
-    static const string DefaultName;
-
     ExitScene();
     void Render() override;
 

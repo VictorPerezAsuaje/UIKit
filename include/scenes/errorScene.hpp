@@ -8,8 +8,6 @@ using namespace std;
 class ErrorScene : public Scene
 {
 public:
-    static const string DefaultName;
-
     ErrorScene();
 
     void RegisterException(const exception &ex);

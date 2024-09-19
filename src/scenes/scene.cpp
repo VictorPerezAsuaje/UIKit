@@ -11,8 +11,3 @@ Scene::Scene()
 {
     _manager = Game::GetService<SceneManager>();
 }
-
-string Scene::GetName()
-{
-    return Name;
-}

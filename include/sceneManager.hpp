@@ -15,16 +15,23 @@ using namespace std;
 class SceneManager
 {
 public:
-    void AddScene(shared_ptr<Scene> scene);
-    shared_ptr<Scene> GetSceneByName(string sceneName);
+    SceneManager(){}
+
+    template <IsScene T>
+    void AddScene(shared_ptr<T> scene);
+
+    template <IsScene T>
+    shared_ptr<T> GetScene();
 
     shared_ptr<Scene> GetCurrentScene();
-    void SetCurrentScene(string sceneName);
-    void RenderCurrentScene();
 
+    template <IsScene T>
+    void SetCurrentScene();
+
+    void RenderCurrentScene();
     bool ShouldExitGame();
 
 private:
-    map<string, shared_ptr<Scene>> Scenes = {};
-    string CurrentScene = MenuScene::DefaultName;
+    unordered_map<type_index, shared_ptr<Scene>> Scenes = {};
+    type_index CurrentScene = typeid(MenuScene);
 };

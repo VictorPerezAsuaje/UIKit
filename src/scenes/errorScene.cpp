@@ -10,12 +10,7 @@
 
 using namespace std;
 
-const string ErrorScene::DefaultName = "Error";
-
-ErrorScene::ErrorScene() : Scene()
-{
-    Name = DefaultName;
-}
+ErrorScene::ErrorScene() : Scene(){}
 
 void ErrorScene::RegisterException(const exception &ex)
 {
@@ -29,6 +24,6 @@ void ErrorScene::Render()
 
     if (IsKeyPressed(KEY_BACKSPACE))
     {
-        _manager->SetCurrentScene(MenuScene::DefaultName);
+        _manager->SetCurrentScene<MenuScene>();
     }
 }

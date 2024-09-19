@@ -1,12 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include <functional>
-#include <memory>
-#include <unordered_map>
-#include <typeindex>
-#include <stdexcept>
-#include <format>
+#include "globalIncludes.hpp"
 
 using namespace std;
 

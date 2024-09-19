@@ -9,11 +9,8 @@
 
 using namespace std;
 
-const string ConfigurationScene::DefaultName = "Configuration";
-
 ConfigurationScene::ConfigurationScene() : Scene()
 {
-    Name = ConfigurationScene::DefaultName;
     _tabButtonArea = UIPanel(0, 0, Game::width * 0.2, Game::height);
     _tabButtonArea.BaseColor = Color(0, 0, 0, 0);
 
@@ -51,7 +48,6 @@ void ConfigurationScene::Render()
 
 void ConfigurationScene::AddTabButton(string id, string text, function<void()> callback)
 {
-    float x = Game::fontSpacing;
     float y = (_tabButtonArea.Children.size() + 1) * Game::fontSpacing;
 
     Rectangle areaRect = _tabButtonArea.GetPosition();
@@ -102,7 +98,7 @@ void ConfigurationScene::ShowSoundOptions()
 void ConfigurationScene::BackToMenu()
 {
     _selectedTab = "Display";
-    _manager->SetCurrentScene(MenuScene::DefaultName);
+    _manager->SetCurrentScene<MenuScene>();
 }
 
 #pragma endregion PRIVATE_METHODS

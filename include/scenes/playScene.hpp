@@ -10,8 +10,6 @@ using namespace std;
 class PlayScene : public Scene
 {
 public:
-    static const string DefaultName;
-
     PlayScene();
     void Render() override;
 };

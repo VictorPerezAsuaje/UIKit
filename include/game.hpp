@@ -12,7 +12,7 @@ class Game
 {
 private:
     static unique_ptr<ServiceCollection> _serviceCollection;
-    shared_ptr<SceneManager> _sceneManager;
+    static unique_ptr<SceneManager> _sceneManager;
 
     static map<int, Texture2D> _resources;
 
@@ -35,7 +35,8 @@ public:
 
     Game();
 
-    void AddScene(shared_ptr<Scene> scene);
+    template <IsScene T>
+    void AddScene(shared_ptr<T> scene);
     void Run();
 
     template <typename T>

@@ -1,7 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <format>
-#include <memory>
+#include "globalIncludes.hpp"
 
 #include "sceneManager.hpp"
 #include "scenes/menuScene.hpp"
@@ -10,14 +7,15 @@
 
 using namespace std;
 
-void SceneManager::AddScene(shared_ptr<Scene> scene)
+template <IsScene T>
+void SceneManager::AddScene(shared_ptr<T> scene)
 {
-    if (Scenes.count(scene->GetName()) == 1)
+    if (Scenes.contains(typeid(T)) == 1)
     {
-        throw invalid_argument("Scene " + scene->GetName() + " is duplicated.");
+        throw invalid_argument(format("Scene {} is duplicated.", typeid(T).name()));
     }
 
-    Scenes[scene->GetName()] = scene;
+    Scenes[typeid(T)] = scene;
 }
 
 void SceneManager::RenderCurrentScene()
@@ -30,27 +28,29 @@ shared_ptr<Scene> SceneManager::GetCurrentScene()
     return Scenes[CurrentScene];
 }
 
-void SceneManager::SetCurrentScene(string sceneName)
+template <IsScene T>
+void SceneManager::SetCurrentScene()
 {
-    if (Scenes.count(sceneName) == 0)
+    if (Scenes.contains(typeid(T)) == 0)
     {
-        throw invalid_argument("Scene " + sceneName + " not found ");
+        throw invalid_argument(format("Scene {} not found.", typeid(T).name()));
     }
 
-    CurrentScene = sceneName;
+    CurrentScene = typeid(T);
 }
 
-shared_ptr<Scene> SceneManager::GetSceneByName(string sceneName)
+template <IsScene T>
+shared_ptr<T> SceneManager::GetScene()
 {
-    if (Scenes.count(sceneName) == 0)
+    if (Scenes.contains(typeid(T)) == 0)
     {
-        throw invalid_argument("Scene " + sceneName + " not found ");
+        throw invalid_argument(format("Scene {} not found.", typeid(T).name()));
     }
 
-    return Scenes[sceneName];
+    return Scenes[typeid(T)];
 }
 
 bool SceneManager::ShouldExitGame()
 {
-    return CurrentScene == ExitScene::DefaultName;
+    return CurrentScene == typeid(ExitScene);
 }

@@ -18,6 +18,7 @@ string Game::title = "Scene Manager Test";
 map<int, Texture2D> Game::_resources = {};
 
 unique_ptr<ServiceCollection> Game::_serviceCollection;
+unique_ptr<SceneManager> Game::_sceneManager;
 
 #pragma endregion PRIVATE_PROPS
 
@@ -26,8 +27,9 @@ unique_ptr<ServiceCollection> Game::_serviceCollection;
 Game::Game()
 {
     _serviceCollection = make_unique<ServiceCollection>(ServiceCollection());
-    _serviceCollection->AddSingleton<SceneManager>();
-    _sceneManager = GetService<SceneManager>();
+    _sceneManager = make_unique<SceneManager>(SceneManager());
+    // _serviceCollection->AddSingleton<SceneManager>();
+    // _sceneManager = GetService<SceneManager>();
 }
 
 void Game::ResetScopedServices()
@@ -86,7 +88,8 @@ void Game::AddScoped()
     _serviceCollection->AddScoped<T>();
 }
 
-void Game::AddScene(shared_ptr<Scene> scene)
+template <IsScene T>
+void Game::AddScene(shared_ptr<T> scene)
 {
     _sceneManager->AddScene(scene);
 }
@@ -177,10 +180,8 @@ void Game::Run()
                 continue;
             }
 
-            static_pointer_cast<ErrorScene>(_sceneManager->GetSceneByName(ErrorScene::DefaultName))
-                ->RegisterException(e);
-
-            _sceneManager->SetCurrentScene(ErrorScene::DefaultName);
+            _sceneManager->GetScene<ErrorScene>()->RegisterException(e);
+            _sceneManager->SetCurrentScene<ErrorScene>();
         }
 
         EndDrawing();

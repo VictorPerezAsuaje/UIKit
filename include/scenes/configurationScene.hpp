@@ -11,8 +11,6 @@ class UIButton;
 class ConfigurationScene : public Scene
 {
 public:
-    static const string DefaultName;
-
     ConfigurationScene();
 
     void Render() override;

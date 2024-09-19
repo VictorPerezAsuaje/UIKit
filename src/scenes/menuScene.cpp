@@ -13,44 +13,41 @@
 
 using namespace std;
 
-const string MenuScene::DefaultName = "Menu";
-
 MenuScene::MenuScene() : Scene()
 {
-    Name = MenuScene::DefaultName;
-    Options = {PlayScene::DefaultName, ConfigurationScene::DefaultName, ExitScene::DefaultName};
 }
 
-void MenuScene::ChangeToScene(string sceneName)
+template <IsScene T>
+void MenuScene::ChangeToScene()
 {
-    _manager->SetCurrentScene(sceneName);
+    _manager->SetCurrentScene<T>();
 }
 
 void MenuScene::LoadMenuButtons()
 {
-    int i = 0;
-    for (string optionName : Options)
-    {
-        int spacing = i * Game::fontSpacing;
-        auto uppercased = TextToUpper(optionName.c_str());
-        Vector2 textAxis = MeasureTextEx(GetFontDefault(), uppercased, Game::fontSize, 0);
+    // int i = 0;
+    // for (string optionName : Options)
+    // {
+    //     int spacing = i * Game::fontSpacing;
+    //     auto uppercased = TextToUpper(optionName.c_str());
+    //     Vector2 textAxis = MeasureTextEx(GetFontDefault(), uppercased, Game::fontSize, 0);
 
-        float x = (Game::width - textAxis.x) / 2;
-        float y = (Game::height - textAxis.y) / 2 + spacing * 2;
+    //     float x = (Game::width - textAxis.x) / 2;
+    //     float y = (Game::height - textAxis.y) / 2 + spacing * 2;
 
-        float width = (float)MeasureText(uppercased, Game::fontSize) + Game::fontPadding;
-        float height = (float)Game::fontSize + Game::fontPadding;
+    //     float width = (float)MeasureText(uppercased, Game::fontSize) + Game::fontPadding;
+    //     float height = (float)Game::fontSize + Game::fontPadding;
 
-        UIButton button = UIButton((int)x, (int)y, width, height);
-        button.Text = uppercased;
-        button.OnClickFunc = [this, optionName = optionName]()
-        {
-            this->ChangeToScene(optionName);
-        };
+    //     UIButton button = UIButton((int)x, (int)y, width, height);
+    //     button.Text = uppercased;
+    //     button.OnClickFunc = [this, optionName = optionName]()
+    //     {
+    //         this->ChangeToScene(optionName);
+    //     };
 
-        MenuButtons.push_back(button);
-        i++;
-    }
+    //     MenuButtons.push_back(button);
+    //     i++;
+    // }
 }
 
 void MenuScene::Render()

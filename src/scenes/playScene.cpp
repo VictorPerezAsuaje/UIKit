@@ -8,11 +8,8 @@
 
 using namespace std;
 
-const string PlayScene::DefaultName = "Play";
-
-PlayScene::PlayScene() : Scene()
-{
-    Name = DefaultName;
+PlayScene::PlayScene() : Scene() {
+    
 }
 
 void PlayScene::Render()
@@ -21,6 +18,6 @@ void PlayScene::Render()
 
     if (IsKeyPressed(KEY_BACKSPACE))
     {
-        _manager->SetCurrentScene(MenuScene::DefaultName);
+        _manager->SetCurrentScene<MenuScene>();
     }
 }
