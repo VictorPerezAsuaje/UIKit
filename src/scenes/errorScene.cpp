@@ -14,12 +14,20 @@ const string ErrorScene::DefaultName = "Error";
 
 ErrorScene::ErrorScene() : Scene()
 {
-    Name = DefaultName;
+    _name = DefaultName;
 }
 
-void ErrorScene::RegisterException(const exception &ex)
+void ErrorScene::Init()
 {
-    _message = ex.what();
+    cout << "ErrorScene: Init" << endl;
+    // Initialize scene variables
+    initialized = true;
+}
+
+void ErrorScene::Load()
+{
+    cout << "ErrorScene: Load" << endl;
+    // Load menu-specific resources (e.g., textures, sounds)
 }
 
 void ErrorScene::Render()
@@ -29,6 +37,21 @@ void ErrorScene::Render()
 
     if (IsKeyPressed(KEY_BACKSPACE))
     {
-        _manager->SetCurrentScene(MenuScene::DefaultName);
+        Game::_sceneManager->SetCurrentScene(MenuScene::DefaultName);
     }
+}
+
+void ErrorScene::Update()
+{
+}
+
+void ErrorScene::Unload()
+{
+    cout << "ErrorScene: Unload" << endl;
+    // Unload any resources that need to be freed
+}
+
+void ErrorScene::RegisterException(const exception &ex)
+{
+    _message = ex.what();
 }

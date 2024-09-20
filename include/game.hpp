@@ -12,8 +12,7 @@ class Game
 {
 private:
     static unique_ptr<ServiceCollection> _serviceCollection;
-    shared_ptr<SceneManager> _sceneManager;
-
+    
     static map<int, Texture2D> _resources;
 
     bool _showMetadata = true;
@@ -32,6 +31,8 @@ public:
     static int fontSpacing;
     static int fontPadding;
     static string title;
+
+    static unique_ptr<SceneManager> _sceneManager;
 
     Game();
 

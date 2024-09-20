@@ -12,7 +12,26 @@ const string PlayScene::DefaultName = "Play";
 
 PlayScene::PlayScene() : Scene()
 {
-    Name = DefaultName;
+    _name = DefaultName;
+}
+
+#pragma region LIFECYCLE
+
+void PlayScene::Init()
+{
+    cout << "PlayScene: Init" << endl;
+    // Initialize scene variables
+    initialized = true;
+}
+
+void PlayScene::Load()
+{
+    cout << "PlayScene: Load" << endl;
+    // Load menu-specific resources (e.g., textures, sounds)
+}
+
+void PlayScene::Update()
+{
 }
 
 void PlayScene::Render()
@@ -21,6 +40,15 @@ void PlayScene::Render()
 
     if (IsKeyPressed(KEY_BACKSPACE))
     {
-        _manager->SetCurrentScene(MenuScene::DefaultName);
+        Game::_sceneManager->SetCurrentScene(MenuScene::DefaultName);
     }
 }
+
+void PlayScene::Unload()
+{
+    cout << "PlayScene: Unload" << endl;
+    // Unload any resources that need to be freed
+}
+
+#pragma endregion LIFECYCLE
+

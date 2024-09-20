@@ -12,10 +12,13 @@ class MenuScene : public Scene
 {
 public:
     static const string DefaultName;
-
     MenuScene();
 
+    void Init() override;
+    void Load() override;
+    void Update() override;
     void Render() override;
+    void Unload() override;
 
 protected:
     vector<string> Options = {};

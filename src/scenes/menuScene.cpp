@@ -17,13 +17,59 @@ const string MenuScene::DefaultName = "Menu";
 
 MenuScene::MenuScene() : Scene()
 {
-    Name = MenuScene::DefaultName;
+    _name = MenuScene::DefaultName;
     Options = {PlayScene::DefaultName, ConfigurationScene::DefaultName, ExitScene::DefaultName};
 }
 
+#pragma region LIFECYCLE
+
+void MenuScene::Init()
+{
+    cout << "MenuScene: Init" << endl;
+    // Initialize scene variables
+    initialized = true;
+}
+
+void MenuScene::Load()
+{
+    cout << "MenuScene: Load" << endl;
+    // Load menu-specific resources (e.g., textures, sounds)
+}
+
+void MenuScene::Update()
+{
+    
+}
+
+void MenuScene::Render()
+{
+    if (MenuButtons.size() == 0)
+    {
+        LoadMenuButtons();
+    }
+
+    Texture2D bg = Game::GetResource(0);
+    DrawTextureEx(bg, (Vector2){0, 0}, 0, Game::GetScreenWidthRatio(bg.width), WHITE);
+    DrawRectangle(0, 0, Game::width, Game::height, Color(0, 0, 0, 128));
+
+    for (UIButton button : MenuButtons)
+    {
+        button.Update();
+    }
+}
+
+void MenuScene::Unload()
+{
+    cout << "MenuScene: Unload" << endl;
+    // Unload any resources that need to be freed
+}
+
+#pragma endregion LIFECYCLE
+
+
 void MenuScene::ChangeToScene(string sceneName)
 {
-    _manager->SetCurrentScene(sceneName);
+    Game::_sceneManager->SetCurrentScene(sceneName);
 }
 
 void MenuScene::LoadMenuButtons()
@@ -53,19 +99,3 @@ void MenuScene::LoadMenuButtons()
     }
 }
 
-void MenuScene::Render()
-{
-    if (MenuButtons.size() == 0)
-    {
-        LoadMenuButtons();
-    }
-
-    Texture2D bg = Game::GetResource(0);
-    DrawTextureEx(bg, (Vector2){0, 0}, 0, Game::GetScreenWidthRatio(bg.width), WHITE);
-    DrawRectangle(0, 0, Game::width, Game::height, Color(0, 0, 0, 128));
-
-    for (UIButton button : MenuButtons)
-    {
-        button.Update();
-    }
-}

@@ -12,10 +12,13 @@ class ConfigurationScene : public Scene
 {
 public:
     static const string DefaultName;
-
     ConfigurationScene();
 
+    void Init() override;
+    void Load() override;
+    void Update() override;
     void Render() override;
+    void Unload() override;
 
 protected:
     UIPanel _tabButtonArea = UIPanel();

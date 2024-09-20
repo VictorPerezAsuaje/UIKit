@@ -18,6 +18,7 @@ string Game::title = "Scene Manager Test";
 map<int, Texture2D> Game::_resources = {};
 
 unique_ptr<ServiceCollection> Game::_serviceCollection;
+unique_ptr<SceneManager> Game::_sceneManager;
 
 #pragma endregion PRIVATE_PROPS
 
@@ -26,8 +27,8 @@ unique_ptr<ServiceCollection> Game::_serviceCollection;
 Game::Game()
 {
     _serviceCollection = make_unique<ServiceCollection>(ServiceCollection());
+    _sceneManager = make_unique<SceneManager>(SceneManager());
     _serviceCollection->AddSingleton<SceneManager>();
-    _sceneManager = GetService<SceneManager>();
 }
 
 void Game::ResetScopedServices()
@@ -140,6 +141,8 @@ void Game::Run()
 
     LoadResources();
     SetTargetFPS(60);
+
+    _sceneManager->SetCurrentScene("Menu");
 
     while (!WindowShouldClose())
     {

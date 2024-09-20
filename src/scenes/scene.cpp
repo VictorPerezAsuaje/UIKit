@@ -7,12 +7,17 @@
 
 using namespace std;
 
-Scene::Scene()
+Scene::Scene() : initialized(false)
 {
-    _manager = Game::GetService<SceneManager>();
+    
 }
 
 string Scene::GetName()
 {
-    return Name;
+    return _name;
+}
+
+bool Scene::IsInitialized()
+{
+    return initialized;
 }

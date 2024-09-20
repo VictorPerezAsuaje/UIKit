@@ -9,9 +9,11 @@ class ExitScene : public Scene
 {
 public:
     static const string DefaultName;
-
     ExitScene();
-    void Render() override;
 
-protected:
+    void Init() override;
+    void Load() override;
+    void Update() override;
+    void Render() override;
+    void Unload() override;
 };

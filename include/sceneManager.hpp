@@ -18,9 +18,9 @@ public:
     void AddScene(shared_ptr<Scene> scene);
     shared_ptr<Scene> GetSceneByName(string sceneName);
 
-    shared_ptr<Scene> GetCurrentScene();
     void SetCurrentScene(string sceneName);
     void RenderCurrentScene();
+    shared_ptr<Scene> GetCurrentScene();
 
     bool ShouldExitGame();
 

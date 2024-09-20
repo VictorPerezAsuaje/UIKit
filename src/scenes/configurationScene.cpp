@@ -4,7 +4,7 @@
 #include "sceneManager.hpp"
 #include "ui/uiButton.hpp"
 
-#include "scenes/menuScene.hpp"
+#include "scenes/ConfigurationScene.hpp"
 #include "scenes/configurationScene.hpp"
 
 using namespace std;
@@ -13,7 +13,7 @@ const string ConfigurationScene::DefaultName = "Configuration";
 
 ConfigurationScene::ConfigurationScene() : Scene()
 {
-    Name = ConfigurationScene::DefaultName;
+    _name = ConfigurationScene::DefaultName;
     _tabButtonArea = UIPanel(0, 0, Game::width * 0.2, Game::height);
     _tabButtonArea.BaseColor = Color(0, 0, 0, 0);
 
@@ -23,6 +23,26 @@ ConfigurationScene::ConfigurationScene() : Scene()
     _tabConfigArea = UIPanel(buttonRect.width + spacing, spacing, Game::width - buttonRect.width - 2 * spacing, (float)Game::height - 2 * spacing);
 
     _tabConfigArea.BaseColor = Color(0, 0, 0, 64);
+}
+
+#pragma region LIFECYCLE
+
+void ConfigurationScene::Init()
+{
+    cout << "ConfigurationScene: Init" << endl;
+    // Initialize scene variables
+    initialized = true;
+}
+
+void ConfigurationScene::Load()
+{
+    cout << "ConfigurationScene: Load" << endl;
+    // Load menu-specific resources (e.g., textures, sounds)
+}
+
+void ConfigurationScene::Update()
+{
+    
 }
 
 void ConfigurationScene::Render()
@@ -39,19 +59,28 @@ void ConfigurationScene::Render()
     _tabConfigArea.Update();
     _tabButtonArea.Update();
 
-    if(_selectedTab == "Display"){
+    if (_selectedTab == "Display")
+    {
         ShowDisplayOptions();
     }
-    else if(_selectedTab == "Sound"){
+    else if (_selectedTab == "Sound")
+    {
         ShowSoundOptions();
     }
 }
+
+void ConfigurationScene::Unload()
+{
+    cout << "ConfigurationScene: Unload" << endl;
+    // Unload any resources that need to be freed
+}
+
+#pragma endregion LIFECYCLE
 
 #pragma region PRIVATE_METHODS
 
 void ConfigurationScene::AddTabButton(string id, string text, function<void()> callback)
 {
-    float x = Game::fontSpacing;
     float y = (_tabButtonArea.Children.size() + 1) * Game::fontSpacing;
 
     Rectangle areaRect = _tabButtonArea.GetPosition();
@@ -102,7 +131,7 @@ void ConfigurationScene::ShowSoundOptions()
 void ConfigurationScene::BackToMenu()
 {
     _selectedTab = "Display";
-    _manager->SetCurrentScene(MenuScene::DefaultName);
+    Game::_sceneManager->SetCurrentScene(MenuScene::DefaultName);
 }
 
 #pragma endregion PRIVATE_METHODS
